@@ -1,274 +1,443 @@
-# Nexus - Framework-Agnostic PHP Packages for ERP Systems
+# Nexus Content
 
-Nexus is a **package-only monorepo** containing 50+ atomic, reusable PHP packages for building Enterprise Resource Planning (ERP) systems. Each package is framework-agnostic, making them usable with Laravel, Symfony, Slim, or any other PHP framework.
+[![PHP Version](https://img.shields.io/badge/php-%5E8.3-blue)](https://www.php.net/)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-## 📖 The Philosophy: "Pure Business Logic, Framework Independent"
+**Framework-agnostic knowledge base and content management package with versioning, workflow, and multi-language support.**
 
-The core philosophy of Nexus is **Framework Agnosticism**. Business logic should be portable and reusable across different frameworks and applications.
+## Overview
 
-- **🎯 Pure Business Logic**: Packages contain only business rules and domain logic
-- **🔌 Interface-Driven**: All external dependencies defined as contracts
-- **📦 Atomic & Publishable**: Each package can be published independently to Packagist
-- **🧪 Testable**: Pure PHP logic with mockable dependencies
-- **🌍 Framework-Agnostic**: Works with Laravel, Symfony, or any PHP framework
+`Nexus\Content` provides a comprehensive, stateless content management engine for building knowledge bases, documentation systems, help centers, and internal wikis. The package implements progressive disclosure across three levels:
 
-## 🏗️ Architecture
+- **Level 1 (MVP)**: Basic article creation, publishing, and search integration
+- **Level 2 (Professional)**: Version control, review workflow, hierarchical categories
+- **Level 3 (Enterprise)**: Scheduled publishing, content locking, multi-language support, access control
 
-### 📦 Atomic Packages
+## Key Features
 
-All packages in `packages/` are self-contained units of functionality designed to be:
+✨ **Comprehensive Version Control**
+- Immutable version history with full audit trail
+- Draft → Pending Review → Published → Archived workflow
+- Compare any two versions with built-in diff generator
 
-- **Framework-Agnostic:** Pure PHP 8.3+ logic with no framework dependencies
-- **Persistence-Agnostic:** No migrations or models - data access defined via interfaces
-- **Publishable:** Each package can be published independently to Packagist
-- **Contract-Driven:** All external dependencies injected as interfaces
-- **Stateless:** Long-term state externalized via storage interfaces
+🌍 **Multi-Language Support**
+- Translation groups linking related articles
+- Language-specific content with fallback support
+- Search filtering by language
 
-## 📦 Available Packages (51 packages)
+🔒 **Enterprise-Grade Access Control**
+- Public/private visibility toggle
+- Party-based access control lists (integration with `Nexus\Party`)
+- Content locking prevents simultaneous editing
 
-### Core Infrastructure (8 packages)
-- **`Nexus\Tenant`** - Multi-tenancy context and isolation engine
-- **`Nexus\Setting`** - Global and tenant-specific configuration management
-- **`Nexus\Sequencing`** - Auto-numbering with atomic counter management
-- **`Nexus\Period`** - Fiscal period management and transaction validation
-- **`Nexus\AuditLogger`** - Timeline feeds and audit trails
-- **`Nexus\EventStream`** - Event sourcing for critical domains (Finance GL, Inventory)
-- **`Nexus\Uom`** - Unit of measurement management and conversion
-- **`Nexus\Monitoring`** - Observability with telemetry, health checks, alerting, SLO tracking
+📅 **Scheduled Publishing**
+- Set future publish dates for content versions
+- Automatic publishing via background workers (application layer)
 
-### Identity & Security (3 packages)
-- **`Nexus\Identity`** - Authentication, RBAC, MFA, session/token management
-- **`Nexus\Crypto`** - Cryptographic operations and key management
-- **`Nexus\Audit`** - Advanced audit capabilities (extends AuditLogger)
+🔍 **Powerful Search Integration**
+- Framework-agnostic search interface
+- Faceted search (category, language, permissions)
+- Respects visibility and access control
 
-### Finance & Accounting (7 packages)
-- **`Nexus\Finance`** - General ledger, journal entries, double-entry bookkeeping
-- **`Nexus\Accounting`** - Financial statements, period close, consolidation
-- **`Nexus\Receivable`** - Customer invoicing, collections, credit control
-- **`Nexus\Payable`** - Vendor bills, payment processing, 3-way matching
-- **`Nexus\CashManagement`** - Bank reconciliation, cash flow forecasting
-- **`Nexus\Budget`** - Budget planning and variance tracking
-- **`Nexus\Assets`** - Fixed asset management, depreciation
-- **`Nexus\Currency`** - Multi-currency management and exchange rates
+📊 **Hierarchical Organization**
+- Categories with up to 3 levels of nesting
+- Logical content organization
+- Category-based filtering
 
-### Sales & Operations (6 packages)
-- **`Nexus\Sales`** - Quotation-to-order lifecycle, pricing engine
-- **`Nexus\Inventory`** - Stock management with lot/serial tracking
-- **`Nexus\Warehouse`** - Warehouse operations and bin management
-- **`Nexus\Procurement`** - Purchase requisitions, POs, goods receipt
-- **`Nexus\Manufacturing`** - Bill of materials, work orders, MRP
-- **`Nexus\Product`** - Product catalog, pricing, categorization
-
-### Human Resources (3 packages)
-- **`Nexus\Hrm`** - Leave, attendance, performance reviews
-- **`Nexus\Payroll`** - Payroll processing framework
-- **`Nexus\PayrollMysStatutory`** - Malaysian statutory calculations (EPF, SOCSO, PCB)
-
-### Customer & Partner Management (4 packages)
-- **`Nexus\Party`** - Customers, vendors, employees, contacts
-- **`Nexus\Crm`** - Leads, opportunities, sales pipeline
-- **`Nexus\Marketing`** - Campaigns, A/B testing, GDPR compliance
-- **`Nexus\FieldService`** - Work orders, technicians, service contracts
-
-### Integration & Automation (7 packages)
-- **`Nexus\Connector`** - Integration hub with circuit breaker, OAuth
-- **`Nexus\Workflow`** - Process automation, state machines
-- **`Nexus\Notifier`** - Multi-channel notifications (email, SMS, push, in-app)
-- **`Nexus\Scheduler`** - Task scheduling and job management
-- **`Nexus\DataProcessor`** - OCR, ETL interfaces (interface-only package)
-- **`Nexus\Intelligence`** - AI-assisted automation and predictions
-- **`Nexus\Geo`** - Geocoding, geofencing, routing
-- **`Nexus\Routing`** - Route optimization and caching
-
-### Reporting & Data (5 packages)
-- **`Nexus\Reporting`** - Report definition and execution engine
-- **`Nexus\Export`** - Multi-format export (PDF, Excel, CSV, JSON)
-- **`Nexus\Import`** - Data import with validation and transformation
-- **`Nexus\Analytics`** - Business intelligence, predictive models
-- **`Nexus\Document`** - Document management with versioning
-
-### Compliance & Governance (4 packages)
-- **`Nexus\Compliance`** - Process enforcement, operational compliance
-- **`Nexus\Statutory`** - Reporting compliance, statutory filing
-- **`Nexus\Backoffice`** - Company structure, offices, departments
-- **`Nexus\OrgStructure`** - Organizational hierarchy management
-
-### Support & Utilities (3 packages)
-- **`Nexus\Storage`** - File storage abstraction layer
-- **`Nexus\ProjectManagement`** - Projects, tasks, timesheets, milestones
-- **`Nexus\FeatureFlags`** - Feature flag management
-
-## 🛠️ Getting Started
-
-### Prerequisites
-- PHP 8.3+
-- Composer
-
-### Installation
-
-1. **Clone the repository:**
-   ```bash
-   git clone <repository-url> nexus
-   cd nexus
-   ```
-
-2. **Install Dependencies:**
-   ```bash
-   composer install
-   ```
-
-3. **Explore Packages:**
-   ```bash
-   # Browse available packages
-   ls packages/
-   
-   # Read package documentation
-   cat packages/Tenant/README.md
-   cat packages/Finance/README.md
-   ```
-
-## 📚 Usage
-
-### Installing a Package
-
-Each package can be installed independently in your PHP application:
+## Installation
 
 ```bash
-# In your Laravel, Symfony, or other PHP application
-composer require nexus/tenant
-composer require nexus/finance
-composer require nexus/receivable
+composer require nexus/content:"*@dev"
 ```
 
-### Implementing Package Contracts
+## Quick Start
 
-Packages define interfaces, your application provides implementations:
+### 1. Create Your First Article
 
 ```php
-// Package defines the interface
-namespace Nexus\Tenant\Contracts;
+use Nexus\Content\Services\ArticleManager;
+use Nexus\Content\ValueObjects\ArticleCategory;
 
-interface TenantRepositoryInterface
-{
-    public function findById(string $id): ?TenantInterface;
-    public function save(TenantInterface $tenant): void;
-}
+// Inject dependencies (see Integration Guide)
+$articleManager = new ArticleManager($repository, $searchEngine);
 
-// Your Laravel application implements it
-namespace App\Repositories;
+// Create category
+$category = ArticleCategory::createRoot(
+    categoryId: 'cat-001',
+    name: 'Getting Started',
+    slug: 'getting-started',
+    description: 'Beginner guides and tutorials'
+);
 
-use Nexus\Tenant\Contracts\TenantRepositoryInterface;
-use Nexus\Tenant\Contracts\TenantInterface;
-use App\Models\Tenant;
-
-final class EloquentTenantRepository implements TenantRepositoryInterface
-{
-    public function findById(string $id): ?TenantInterface
-    {
-        return Tenant::find($id);
-    }
-    
-    public function save(TenantInterface $tenant): void
-    {
-        Tenant::updateOrCreate(['id' => $tenant->getId()], [
-            'name' => $tenant->getName(),
-            'status' => $tenant->getStatus()->value,
-        ]);
-    }
-}
-
-// Bind in service provider
-$this->app->bind(
-    TenantRepositoryInterface::class,
-    EloquentTenantRepository::class
+// Create article with initial draft
+$article = $articleManager->createArticle(
+    articleId: 'art-001',
+    title: 'How to Get Started',
+    slug: 'how-to-get-started',
+    category: $category,
+    textContent: '# Getting Started\n\nWelcome to our platform...',
+    authorId: 'user-123',
+    isPublic: true
 );
 ```
 
-### Using Package Services
+### 2. Publish the Article
 
 ```php
-use Nexus\Tenant\Contracts\TenantContextInterface;
-use Nexus\Finance\Contracts\GeneralLedgerManagerInterface;
+// Publish latest draft
+$publishedArticle = $articleManager->publish('art-001');
 
-class InvoiceController
+// Article is now searchable via ContentSearchInterface
+```
+
+### 3. Update Content (Creates New Version)
+
+```php
+$updatedArticle = $articleManager->updateContent(
+    articleId: 'art-001',
+    textContent: '# Getting Started\n\nUpdated content...',
+    authorId: 'user-123'
+);
+
+// New draft version created, previous version preserved in history
+```
+
+### 4. Review Workflow
+
+```php
+// Submit for review
+$article = $articleManager->submitForReview('art-001');
+
+// Approve and publish
+$article = $articleManager->publish('art-001');
+```
+
+## Core Concepts
+
+### Articles
+
+Articles are the primary content containers. Each article:
+- Has a unique slug for permanent URLs
+- Belongs to a single category
+- Contains multiple content versions (history)
+- Can be public or restricted by access control
+- Can be part of a translation group
+
+### Content Versions
+
+Every change creates a new immutable version:
+- Sequential version numbers (1, 2, 3...)
+- Tracks author and creation time
+- Has a lifecycle status (Draft → Pending Review → Published → Archived)
+- Only Draft versions can be edited
+- Only one Published version active at a time
+
+### Categories
+
+Hierarchical organization up to 3 levels:
+```
+Level 1: Product Documentation
+  Level 2: API Reference
+    Level 3: Authentication
+```
+
+### Status Lifecycle
+
+```
+Draft → PendingReview → Published → Archived
+  ↑           ↓              ↓
+  └───────────┘──────────────┘
+```
+
+## Usage Examples
+
+### Level 1: Basic Operations
+
+See [docs/examples/basic-usage.php](docs/examples/basic-usage.php) for complete examples.
+
+```php
+// Create and publish in one flow
+$article = $articleManager->createArticle(/* ... */);
+$publishedArticle = $articleManager->publish($article->articleId);
+
+// Get canonical URL
+$url = $articleManager->getCanonicalUrl($article, 'https://kb.example.com');
+// Returns: https://kb.example.com/kb/how-to-get-started
+```
+
+### Level 2: Version Control & Workflow
+
+```php
+// Create child category
+$subCategory = ArticleCategory::createChild(
+    categoryId: 'cat-002',
+    name: 'API Reference',
+    slug: 'api-reference',
+    parentCategoryId: 'cat-001',
+    parentLevel: 1
+);
+
+// Submit draft for review
+$article = $articleManager->submitForReview('art-001');
+
+// Compare versions
+$diff = $articleManager->compareVersions(
+    articleId: 'art-001',
+    versionId1: 'v1',
+    versionId2: 'v2'
+);
+// Returns: ['added' => [...], 'removed' => [...], 'unchanged' => [...]]
+```
+
+### Level 3: Enterprise Features
+
+```php
+// Schedule future publish
+$article = $articleManager->createArticle(
+    articleId: 'art-002',
+    title: 'Product Launch',
+    slug: 'product-launch',
+    category: $category,
+    textContent: '# New Product\n\nAvailable Q2 2025...',
+    authorId: 'user-123',
+    isPublic: true,
+    options: [
+        'scheduledPublishAt' => new \DateTimeImmutable('2025-06-01 09:00:00'),
+    ]
+);
+
+// Lock for editing
+$lockedArticle = $articleManager->lockForEditing(
+    articleId: 'art-001',
+    userId: 'user-123',
+    durationMinutes: 30
+);
+
+// Create translation
+$frenchArticle = $articleManager->createArticle(
+    articleId: 'art-001-fr',
+    title: 'Comment Commencer',
+    slug: 'comment-commencer',
+    category: $category,
+    textContent: '# Comment Commencer...',
+    authorId: 'user-123',
+    isPublic: true,
+    options: [
+        'translationGroupId' => 'grp-001',
+        'languageCode' => 'fr-FR',
+    ]
+);
+
+// Access control
+$restrictedArticle = $articleManager->createArticle(
+    articleId: 'art-003',
+    title: 'Internal Sales Guide',
+    slug: 'internal-sales-guide',
+    category: $category,
+    textContent: '# Sales Team Only...',
+    authorId: 'user-123',
+    isPublic: false,
+    options: [
+        'accessControlPartyIds' => ['party-sales-team', 'party-management'],
+    ]
+);
+
+// Faceted search
+use Nexus\Content\ValueObjects\SearchCriteria;
+
+$results = $articleManager->search(
+    SearchCriteria::forParty('party-sales-team', 'pricing')
+);
+```
+
+## Available Interfaces
+
+### `ContentRepositoryInterface`
+
+Repository for article persistence. Must be implemented by consuming application.
+
+**Key Methods:**
+- `saveArticle(Article $article): void` - Persist article
+- `findById(string $articleId): ?Article` - Retrieve by ID
+- `findBySlug(string $slug): ?Article` - Retrieve by slug
+- `findVersionById(string $versionId): ?ContentVersion` - Get specific version
+- `findTranslations(string $groupId): array` - Get all translations
+- `isSlugAvailable(string $slug): bool` - Check slug uniqueness
+
+### `ContentSearchInterface`
+
+Search engine integration. Implement with Elasticsearch, Algolia, Meilisearch, etc.
+
+**Key Methods:**
+- `indexArticle(Article $article): void` - Add/update search index
+- `removeArticle(string $articleId): void` - Remove from index
+- `search(SearchCriteria $criteria): array` - Faceted search
+- `reindexAll(): int` - Batch reindexing
+
+### `ArticleManager`
+
+Main service for article operations.
+
+**Key Methods:**
+- `createArticle(...)` - Create new article
+- `updateContent(...)` - Update (creates new version)
+- `publish(...)` - Publish draft
+- `submitForReview(...)` - Request approval
+- `archive(...)` - Archive published article
+- `lockForEditing(...)` - Prevent concurrent edits
+- `compareVersions(...)` - Generate diff
+- `search(...)` - Search articles
+- `getTranslations(...)` - Get language versions
+
+## Application Layer Integration
+
+### Laravel Example
+
+```php
+// app/Repositories/EloquentContentRepository.php
+namespace App\Repositories;
+
+use Nexus\Content\Contracts\ContentRepositoryInterface;
+use Nexus\Content\ValueObjects\Article;
+use App\Models\Article as ArticleModel;
+
+final class EloquentContentRepository implements ContentRepositoryInterface
 {
-    public function __construct(
-        private readonly TenantContextInterface $tenantContext,
-        private readonly GeneralLedgerManagerInterface $glManager
-    ) {}
-    
-    public function store(Request $request)
+    public function saveArticle(Article $article): void
     {
-        $tenantId = $this->tenantContext->getCurrentTenantId();
+        ArticleModel::updateOrCreate(
+            ['article_id' => $article->articleId],
+            [
+                'title' => $article->title,
+                'slug' => $article->slug,
+                'category_id' => $article->category->categoryId,
+                'is_public' => $article->isPublic,
+                'version_history' => json_encode($article->versionHistory),
+                // ... other fields
+            ]
+        );
+    }
+    
+    public function findById(string $articleId): ?Article
+    {
+        $model = ArticleModel::where('article_id', $articleId)->first();
         
-        // Use package business logic
-        $this->glManager->postJournalEntry($journalEntry);
+        if (!$model) {
+            return null;
+        }
+        
+        // Reconstruct Article value object from model
+        return $this->hydrateArticle($model);
+    }
+    
+    // ... implement other methods
+}
+
+// app/Providers/ContentServiceProvider.php
+namespace App\Providers;
+
+use Illuminate\Support\ServiceProvider;
+use Nexus\Content\Contracts\ContentRepositoryInterface;
+use Nexus\Content\Contracts\ContentSearchInterface;
+use App\Repositories\EloquentContentRepository;
+use App\Services\MeilisearchContentSearch;
+
+class ContentServiceProvider extends ServiceProvider
+{
+    public function register(): void
+    {
+        $this->app->singleton(ContentRepositoryInterface::class, EloquentContentRepository::class);
+        $this->app->singleton(ContentSearchInterface::class, MeilisearchContentSearch::class);
     }
 }
 ```
 
-## 🏛️ Architectural Principles
+See [docs/integration-guide.md](docs/integration-guide.md) for complete examples.
 
-### 1. Framework Agnosticism
-- No Laravel, Symfony, or framework-specific code in packages
-- Use PSR interfaces (`psr/log`, `psr/http-client`, `psr/cache`)
-- All framework integration happens in consuming applications
+## Configuration
 
-### 2. Contract-Driven Design
-- Packages define needs via interfaces
-- Consuming applications provide implementations
-- Dependency injection for all external dependencies
+The package is stateless and requires no configuration files. All behavior is controlled via:
 
-### 3. Stateless Design
-- No session state in package classes
-- Long-term state externalized via storage interfaces
-- Horizontally scalable by design
+1. **Repository Implementation** - How articles are stored
+2. **Search Implementation** - Which search engine to use
+3. **Optional Integrations** - Audit logging, metrics, etc.
 
-### 4. Modern PHP Standards
-- PHP 8.3+ with strict types
-- Constructor property promotion
-- Readonly properties for dependencies
-- Native enums for fixed value sets
-- Match expressions over switch statements
+## Testing
 
-## 📖 Documentation
+```bash
+# Run package tests
+cd packages/Content
+composer test
 
-- **[ARCHITECTURE.md](ARCHITECTURE.md)** - Architectural guidelines and rules
-- **[docs/NEXUS_PACKAGES_REFERENCE.md](docs/NEXUS_PACKAGES_REFERENCE.md)** - Complete package capabilities reference
-- **[.github/copilot-instructions.md](.github/copilot-instructions.md)** - Development guidelines
-- **Package READMEs** - Individual package documentation (e.g., `packages/Finance/README.md`)
+# With coverage
+composer test:coverage
+```
 
-## 🤝 Contributing
+## Progressive Disclosure
 
-Please refer to [ARCHITECTURE.md](ARCHITECTURE.md) for detailed architectural guidelines.
+The package implements three levels of functionality:
 
-### Key Rules:
-1. **Packages must be framework-agnostic** - No Laravel, Symfony, or framework-specific code
-2. **Packages define persistence needs via Contracts** - No migrations or models in packages
-3. **All dependencies must be interfaces** - Use dependency injection
-4. **Modern PHP 8.3+ standards** - Use latest language features
-5. **Consult NEXUS_PACKAGES_REFERENCE.md** - Avoid reimplementing existing functionality
+| Level | Features | Use Case |
+|-------|----------|----------|
+| **L1: MVP** | Create, publish, search | Simple knowledge base |
+| **L2: Professional** | Version control, review workflow, categories | Content team collaboration |
+| **L3: Enterprise** | Scheduled publish, locking, multi-language, ACL | Large organizations |
 
-### Creating a New Package
+You can adopt features progressively as your needs grow.
 
-1. Create `packages/NewPackage/` directory
-2. Run `composer init` (require `"php": "^8.3"`)
-3. Define PSR-4 autoloader: `"Nexus\\NewPackage\\": "src/"`
-4. Create `src/Contracts/`, `src/Services/`, `src/Exceptions/`
-5. Write comprehensive `README.md` with usage examples
-6. Add MIT `LICENSE` file
-7. Update root `composer.json` repositories array
+## Package Architecture
 
-## 📄 License
+### Value Objects (Immutable)
+- `Article` - Aggregate root
+- `ContentVersion` - Immutable version
+- `ArticleCategory` - Hierarchical category
+- `EditLock` - Concurrent editing prevention
+- `SearchCriteria` - Faceted search parameters
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+### Services
+- `ArticleManager` - Main business logic orchestrator
 
-## 🔗 Links
+### Contracts (Interfaces)
+- `ContentRepositoryInterface` - Persistence abstraction
+- `ContentSearchInterface` - Search engine abstraction
 
-- **Package Reference Guide**: [docs/NEXUS_PACKAGES_REFERENCE.md](docs/NEXUS_PACKAGES_REFERENCE.md)
-- **Architecture Documentation**: [ARCHITECTURE.md](ARCHITECTURE.md)
-- **Implementation Summaries**: `docs/*_IMPLEMENTATION_SUMMARY.md`
+### Enums
+- `ContentStatus` - Lifecycle states with transition validation
+
+### Exceptions
+- `ArticleNotFoundException`
+- `InvalidStatusTransitionException`
+- `ContentLockedException`
+- `DuplicateSlugException`
+- `InvalidContentException`
+- `InvalidCategoryException`
+
+## Integration with Other Nexus Packages
+
+- **`Nexus\Party`** - Access control via Party IDs (L3.5)
+- **`Nexus\AuditLogger`** - Audit trail for all changes (optional)
+- **`Nexus\Monitoring`** - Metrics tracking (optional)
+- **`Nexus\Tenant`** - Multi-tenant scoping (via repository)
+
+## License
+
+MIT License. See [LICENSE](LICENSE) file for details.
+
+## Documentation
+
+- [Getting Started Guide](docs/getting-started.md)
+- [API Reference](docs/api-reference.md)
+- [Integration Guide](docs/integration-guide.md)
+- [Basic Usage Examples](docs/examples/basic-usage.php)
+- [Advanced Usage Examples](docs/examples/advanced-usage.php)
+
+## Requirements
+
+- PHP 8.3+
+- No external dependencies (pure PHP package)
 
 ---
 
-**Nexus** - Building the future of modular ERP systems with framework-agnostic PHP packages.
+**Package Status:** ✅ Production Ready  
+**Version:** 1.0.0  
+**Last Updated:** 2025-11-24
